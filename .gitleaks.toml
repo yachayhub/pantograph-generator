@@ -11,8 +11,10 @@ useDefault = true
 description = "Known false positives across Yachay repos"
 regexTarget = "line"
 regexes = [
+  '''(?i)^\s*import\s.*\sfrom\s''',  # identifiers on import lines (e.g. totalLinkedin) trip the linkedin rules
+  '''NEXT_PUBLIC_SUPABASE_ANON_KEY''',  # the Supabase anon key is public by design; RLS protects the data
   '''(?i)(storage_key|texturekey|sitekey|data-sitekey)''',
-  '''(?i)\bkey:\s*["'][a-z0-9_-]{3,40}["']''',   # test fixture identifiers such as key: "seat-01"
+  '''(?i)\bkey\s*[:=]\s*["'][a-z0-9_-]{3,40}["']''',   # test fixture identifiers such as key: "seat-01"
 ]
 paths = [
   '''(^|/)docs/audits/''',
