@@ -1,0 +1,50 @@
+# Yachay agent-kit CI standard.
+#
+# Nothing deploys without passing tests here first. This workflow only
+# installs and tests; it never deploys.
+#
+# A macOS self-hosted runner is registered for jobs that need it: swap the
+# `runs-on` line below for the commented one.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    runs-on: ubuntu-latest
+    # runs-on: [self-hosted, macOS, macmini]  # use for jobs that need macOS
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Smoke check (no pytest suite found)
+        run: python -m compileall .

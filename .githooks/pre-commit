@@ -1,0 +1,10 @@
+#!/bin/sh
+# Yachay agent-kit pre-commit hook.
+# Runs gitleaks over staged changes if gitleaks is installed; no-ops otherwise.
+
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --no-banner
+  exit $?
+fi
+
+exit 0
