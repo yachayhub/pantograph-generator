@@ -3,8 +3,12 @@
 # Nothing deploys without passing tests here first. This workflow only
 # installs and tests; it never deploys.
 #
-# A macOS self-hosted runner is registered for jobs that need it: swap the
-# `runs-on` line below for the commented one.
+# Every job here defaults to the self-hosted macOS runner on the Mac mini
+# (labels: self-hosted, macOS, macmini) — hosted Actions minutes are shared
+# across the org, so private repos run on our own hardware. The one public
+# repo (or any repo that must stay off self-hosted, e.g. so a fork PR never
+# runs on our hardware) opts into GitHub-hosted runners with a repo-local
+# .github/ci.json: { "runner": "github" }.
 
 name: CI
 
@@ -36,7 +40,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    # runs-on: [self-hosted, macOS, macmini]  # use for jobs that need macOS
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
