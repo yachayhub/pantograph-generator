@@ -3,7 +3,11 @@
 # Runs gitleaks over staged changes if gitleaks is installed; no-ops otherwise.
 
 if command -v gitleaks >/dev/null 2>&1; then
-  gitleaks protect --staged --no-banner
+  if [ -f .gitleaks.toml ]; then
+    gitleaks protect --staged --no-banner --config .gitleaks.toml
+  else
+    gitleaks protect --staged --no-banner
+  fi
   exit $?
 fi
 

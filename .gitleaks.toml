@@ -1,0 +1,20 @@
+# Yachay agent-kit gitleaks config. Extends the built-in rules; only
+# allowlists known false positives seen across Yachay repos (test fixture
+# identifiers, localStorage key constants, texture keys, reCAPTCHA sitekeys,
+# and audit docs). Referenced by ci-node.yml, ci-light.yml, ci-python.yml and
+# the pre-commit hook via `--config .gitleaks.toml`.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Known false positives across Yachay repos"
+regexTarget = "line"
+regexes = [
+  '''(?i)(storage_key|texturekey|sitekey|data-sitekey)''',
+  '''(?i)\bkey:\s*["'][a-z0-9_-]{3,40}["']''',   # test fixture identifiers such as key: "seat-01"
+]
+paths = [
+  '''(^|/)docs/audits/''',
+  '''\.(png|jpe?g|gif|webp|svg|ico|pdf|woff2?|ttf)$''',
+]
