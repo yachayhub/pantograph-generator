@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       # the marketplace action for gitleaks requires a paid license for organizations; run the binary directly.
@@ -39,7 +39,7 @@ jobs:
     # runs-on: [self-hosted, macOS, macmini]  # use for jobs that need macOS
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v5
         with:
