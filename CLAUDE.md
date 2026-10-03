@@ -44,6 +44,13 @@ recently).
 - No external APIs, databases, or cloud services — fully local file-in/file-out tool.
 - No env vars or secrets.
 
+## Delivery
+- Local checks before push: `pytest`
+- Required CI checks: gitleaks, test. Each must have run and passed; a check that did not run counts as failed. GitHub Free enforces nothing here, so never use `gh pr merge --auto`.
+- Merging applies migrations: no
+- Deploy verification: TODO: describe how to confirm a deploy succeeded.
+- Recovery / rollback: TODO: describe how to recover or roll back a bad deploy/migration.
+
 ## Do not
 - Do not treat `step_parser.py` as a general-purpose STEP parser — it is scoped to
   flat-plate 2D profile extraction only.
